@@ -22,7 +22,7 @@ MedNex bridges this gap by unifying essential healthcare utilities into an intui
 - **Team Name:** `CSE4104-7F-T01`
 - **Section:** `7F`
 - **Course:** CSE 4104 – Software Development III
-- **GitHub Repository:** [cse4104-7f-t01-MedNex](https://github.com/cse4104-7f-t01-MedNex)
+- **GitHub Repository:** [cse4104-7f-t01-MedNex](https://github.com/indro75/cse4104-7f-t01-MedNex.git)
 
 ### Members & Roles
 
