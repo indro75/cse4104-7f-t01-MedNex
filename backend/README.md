@@ -1,79 +1,87 @@
-# MedNex – Backend Service
+# MedNex – Backend Service (Node.js & Express.js)
+
 > **"Understand Your Symptoms. Find the Right Care."**  
-> **Course:** CSE 4104 – Software Development III  
-> **Team Name:** `CSE4104-7F-T01` (Section 7F)  
-> **Backend Architecture & Development Lead:** Indrojit Sana (`11230321391`)  
-> **Initial Localization:** Khulna Division, Bangladesh  
+> An AI-Powered Healthcare Assistance and Doctor Recommendation System developed for **CSE 4104: Software Development III**.
 
 ---
 
-## ⚠️ Core Medical Safety Tenet (NFR-15)
-> **"MedNex provides intelligent triage and health literacy support, not clinical diagnosis or medical prescriptions."**
+## 👥 Project & Team Information
 
-- Acute life-threatening red-flag symptoms immediately trigger the National 999 Emergency Dispatch modal (< 50ms).
-- Zero-hallucination registry: BMDC registration numbers, chamber addresses, and emergency phone numbers represent verified real-world medical facilities in Khulna (KMCH, Gazi Medical, Sheikh Abu Naser Specialized, City Medical).
+- **Course:** CSE 4104 – Software Development III
+- **Team Name:** `CSE4104-7F-T01` (Section 7F)
+- **Backend Architecture & Development Lead:** **Indrojit Sana** (`11230321391`)
+- **Assigned Repository:** [https://github.com/indro75/cse4104-7f-t01-MedNex.git](https://github.com/indro75/cse4104-7f-t01-MedNex.git)
+- **Primary Regional Hub:** Khulna Division, Bangladesh
 
 ---
 
-## 📅 20-Day / 20-Commit Backend Engineering Roadmap
+## ⚠️ Core Medical Safety Tenet
 
-| Day / Commit | Milestone Focus | Deliverables & Mapped SRS Requirements |
+> **"MedNex serves as an initial assistance and informational tool. It does not replace professional medical consultation, provide clinical diagnoses, or prescribe medication."**
+
+- Acute red-flag emergency symptoms suppress conversational flows and prompt the user to call Bangladesh National Emergency **999**.
+- Doctor profiles and chamber details reflect verified medical practitioners and regional hospitals in Khulna (KMCH, Gazi Medical, Sheikh Abu Naser Specialized, City Medical).
+
+---
+
+## 📅 20-Day / 20-Commit Backend Development Roadmap
+
+| Day / Commit | Focus Area | Deliverables & Scope |
 | :---: | :--- | :--- |
-| **Day 01** *(Current)* | **Backend Architecture Foundation** | FastAPI initialization, Pydantic BaseSettings, CORS whitelist, clinical safety headers middleware (`X-Medical-Disclaimer`), `/` root and `/api/health` endpoints, Uvicorn runner (`run.py`), `.gitignore`. *(NFR-10, NFR-12, NFR-15, NFR-17)* |
-| **Day 02** | **Database Persistence Engine** | SQLAlchemy 2.0 ORM engine, sessionmaker, SQLite/PostgreSQL connection pool, base declarative model (`app/database.py`). *(NFR-18, Tier 4)* |
-| **Day 03** | **User Entity & Auth Security** | `User` SQLAlchemy ORM model, Pydantic v2 schemas, bcrypt password hashing, JWT token utilities. *(FR-01, FR-02, FR-06, NFR-09, UC-01)* |
-| **Day 04** | **Authentication & Profile API** | `/api/auth` router: user registration, JWT login, profile view, and 1-Click Demo Patient authentication. *(FR-01 to FR-06, UC-01, UC-02)* |
-| **Day 05** | **Doctor & Hospital Schemas** | Relational ORM models for Khulna verified doctors (BMDC reg, fees, chambers, GPS) and regional hospitals (ICU, emergency wards). *(FR-13 to FR-15, FR-28, Section 6.2)* |
-| **Day 06** | **Khulna Medical Data Seeder** | Seeder with verified datasets for KMCH, Gazi Medical, Sheikh Abu Naser, City Medical, and specialist chambers. *(NFR-14, UC-14)* |
-| **Day 07** | **Doctor Directory & Search API** | `/api/doctors` with multi-criteria filtering by medical specialty, Khulna area (Sadar, Sonadanga, Boyra, etc.), and fee limit. *(FR-13, FR-14, UC-05)* |
-| **Day 08** | **Hospital & Emergency API** | `/api/hospitals` with 24/7 ER hotline, ICU bed availability, and ambulance status. *(FR-27, FR-28, UC-07)* |
-| **Day 09** | **Ambulance Fleet Dispatch API** | `Ambulance` ORM model, Khulna 24/7 fleet seed data, and `/api/ambulances` router with equipment specs (oxygen, ventilator). *(FR-24 to FR-27, UC-07)* |
-| **Day 10** | **Chamber Serial Reservation API** | `Appointment` ORM model, sequential serial counter, and `/api/appointments` booking endpoints with queue time estimation. *(FR-16 to FR-18, UC-05, UC-06)* |
-| **Day 11** | **Red-Flag Emergency Interceptor** | Sub-50ms regex and keyword clinical rule engine intercepting acute life threats (MI, stroke, respiratory arrest) with 999 hotline override. *(FR-11, NFR-03, UC-04)* |
-| **Day 12** | **NLP Symptom Specialty Classifier** | Scikit-learn TF-IDF vectorizer + Multinomial Naive Bayes classifier trained on clinical symptom corpus (>92% accuracy). *(FR-10, Tier 3)* |
-| **Day 13** | **AI Symptom Triage Router** | `/api/symptoms/triage` endpoint integrating duration, pain severity scale (1-10), body map regions, red-flag suppression, and doctor linking. *(FR-07 to FR-12, UC-03)* |
-| **Day 14** | **Biomarker Rule Engine** | Regex document parser and adult biological reference intervals evaluator (CBC, Lipid, HbA1c, LFT) with status tagging. *(FR-20, FR-21, UC-06)* |
-| **Day 15** | **Medical Report Analyzer API** | `/api/reports/analyze` endpoint supporting report uploads, pre-configured sample presets, plain-language clinical synthesis, and doctor checklists. *(FR-19 to FR-23, UC-06)* |
-| **Day 16** | **Pharmaceutical Data & Catalog** | `Medicine` ORM model, schemas, and seed database of top Bangladeshi pharmaceuticals (Square, Beximco, Incepta) with prices and indications. *(FR-32, FR-33)* |
-| **Day 17** | **Drug Interaction Engine** | Fuzzy string distance matcher (`difflib` / token ratio) and reciprocal drug-drug contraindication matrix. *(FR-34 to FR-36, UC-09, Tier 3)* |
-| **Day 18** | **Medicine Search & Interaction API** | `/api/medicines/search` and `/api/medicines/interact` endpoints returning clinical interaction severity, rationale, and timing advice. *(FR-32 to FR-36, UC-09)* |
-| **Day 19** | **Fitness, BMI & Vitals API** | `BMILog` and `HealthActivity` ORM models, BMI & BMR calculator endpoints, and longitudinal timeline export `/api/fitness`. *(FR-37 to FR-41, UC-10, UC-11)* |
-| **Day 20** | **Master Seeder & Final Polish** | Unified master database seed runner (`python -m app.seed`), automated test suite, OpenAPI documentation review, and Render deployment config. *(NFR-02, NFR-10, NFR-17)* |
+| **Day 01** *(Current)* | **Node.js/Express Foundation** | Express server setup, environment config (`dotenv`), CORS, security headers (`helmet`), persistent safety disclaimer headers (`X-Medical-Disclaimer`), `/` root and `/api/health` diagnostics endpoints, and unit test suite. |
+| **Day 02** | **Database Connection (PostgreSQL / Supabase)** | Database client configuration (PostgreSQL / Supabase), connection pooling, and base schema initialization. |
+| **Day 03** | **User Data Model & Auth Security** | User schema, bcrypt password hashing utilities, and JWT authentication middleware (`verifyToken`). |
+| **Day 04** | **Authentication REST API** | `/api/auth` endpoints: user registration (`/register`), login (`/login`), and current user profile (`/profile`). |
+| **Day 05** | **Doctor & Hospital Data Schemas** | Relational schemas for verified doctors (qualifications, specialty, chamber address, visiting hours, fee, coordinates) and hospitals. |
+| **Day 06** | **Khulna Medical Data Seeder** | Seeder populating verified Khulna healthcare facilities (KMCH, Gazi Medical, Sheikh Abu Naser, City Medical) and specialist doctors. |
+| **Day 07** | **Doctor Directory & Filtering API** | `GET /api/doctors` with multi-criteria filtering by medical specialty, Khulna area (Sadar, Sonadanga, Boyra, etc.), and maximum fee. |
+| **Day 08** | **Hospital & Emergency Services API** | `GET /api/hospitals` with emergency hotline, ICU status, emergency ward capabilities, and map coordinates for Leaflet.js. |
+| **Day 09** | **Ambulance Service Directory API** | `GET /api/ambulances` with 24/7 fleet contacts, equipment (Oxygen, ICU, BLS), coverage areas, and 999 hotline integration. |
+| **Day 10** | **Chamber Serial Booking API** | `POST /api/appointments` and `GET /api/appointments/my` for patient chamber serial booking with queue position and estimated reporting time. |
+| **Day 11** | **Google Gemini AI Client & Safety Rules** | Gemini API client setup (`@google/genai`), clinical prompt engineering templates, and emergency keyword interception rules (< 50ms). |
+| **Day 12** | **AI Symptom Analysis & Specialty Triage** | `POST /api/symptoms/analyze` utilizing Gemini AI to evaluate patient symptoms, determine urgency level, and recommend the appropriate medical specialty. |
+| **Day 13** | **Clinical First-Aid Guidance API** | `GET /api/first-aid` providing reviewed medical protocols for common emergencies (Burns, Choking, Bleeding, Bites) with DOs and DON'Ts. |
+| **Day 14** | **Multipart File Upload Infrastructure** | Secure file upload handling using `multer` with MIME-type filtering for diagnostic report PDFs/images and medicine photos. |
+| **Day 15** | **AI Medical Report Analyzer API** | `POST /api/reports/analyze` extracting diagnostic biomarkers (CBC, Lipid, Blood Sugar, LFT) via Gemini Multimodal AI and generating plain-language summaries. |
+| **Day 16** | **Bangladeshi Pharmaceutical Catalog & Seeder** | Medicine database schema and seed data covering major Bangladeshi brands (Square, Beximco, Incepta) with generic names, indications, and prices. |
+| **Day 17** | **Medicine Search & Information API** | `GET /api/medicines/search` endpoint searching by brand name or generic name with dosage, precautions, and side effects. |
+| **Day 18** | **AI Medicine Packaging Image Identifier** | `POST /api/medicines/identify-image` identifying medicines from uploaded box or blister strip photos via Gemini Vision API. |
+| **Day 19** | **Fitness Assessment (BMI Calculator) API** | `POST /api/fitness/bmi` calculating Body Mass Index, WHO category, health suggestions, and recording longitudinal vitals logs. |
+| **Day 20** | **End-to-End API Integration & Deployment** | Automated test suite with Postman collection export, production environment hardening, and Render backend deployment setup. |
 
 ---
 
 ## 🚀 Day 1 Setup & Execution
 
 ### 1. Requirements
-- Python 3.12+ / 3.14
-- Virtual Environment (`venv`)
+- Node.js (v18+ or v20+)
+- npm (v9+)
 
 ### 2. Installation
 ```bash
 # Navigate to backend directory
 cd backend
 
-# Create virtual environment (optional)
-python -m venv venv
-venv\Scripts\activate      # Windows
-# source venv/bin/activate # Linux/macOS
-
 # Install dependencies
-pip install -r requirements.txt
+npm install
 ```
 
-### 3. Launching the Backend Server
+### 3. Running the Server
 ```bash
-python run.py
+# Production mode
+npm start
+
+# Development mode with hot-reload
+npm run dev
 ```
-*Server launches on `http://localhost:8000` with hot-reload enabled.*
+*Server launches on `http://localhost:5000`.*
 
-### 4. Interactive Documentation & Endpoints
-- **Interactive Swagger UI:** [http://localhost:8000/docs](http://localhost:8000/docs)
-- **ReDoc Documentation:** [http://localhost:8000/redoc](http://localhost:8000/redoc)
-- **Health Check Endpoint:** [http://localhost:8000/api/health](http://localhost:8000/api/health)
-
-### 5. Running Automated Unit Tests
+### 4. Running Automated Tests
 ```bash
-python -m unittest discover tests
+npm test
 ```
+*Runs native Node.js tests verifying root and health check endpoints.*
+
+### 5. Verified Endpoints
+- **Root API Info:** `GET http://localhost:5000/`
+- **System Health Diagnostics:** `GET http://localhost:5000/api/health`
