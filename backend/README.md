@@ -28,8 +28,8 @@
 
 | Day / Commit | Focus Area | Deliverables & Scope |
 | :---: | :--- | :--- |
-| **Day 01** *(Current)* | **Node.js/Express Foundation** | Express server setup, environment config (`dotenv`), CORS, security headers (`helmet`), persistent safety disclaimer headers (`X-Medical-Disclaimer`), `/` root and `/api/health` diagnostics endpoints, and unit test suite. |
-| **Day 02** | **Database Connection (PostgreSQL / Supabase)** | Database client configuration (PostgreSQL / Supabase), connection pooling, and base schema initialization. |
+| **Day 01** *(Done)* | **Node.js/Express Foundation** | Express server setup, environment config (`dotenv`), CORS, security headers (`helmet`), persistent safety disclaimer headers (`X-Medical-Disclaimer`), `/` root and `/api/health` diagnostics endpoints, and unit test suite. |
+| **Day 02** *(Current)* | **Database Connection (PostgreSQL / Supabase)** | Database client configuration (`pg.Pool` & Supabase), connection pooling, DDL schema for all 9 relational tables (`src/database/schema.sql`), database initialization runner (`npm run db:init`), `/api/health/db` endpoint, and automated test suite. |
 | **Day 03** | **User Data Model & Auth Security** | User schema, bcrypt password hashing utilities, and JWT authentication middleware (`verifyToken`). |
 | **Day 04** | **Authentication REST API** | `/api/auth` endpoints: user registration (`/register`), login (`/login`), and current user profile (`/profile`). |
 | **Day 05** | **Doctor & Hospital Data Schemas** | Relational schemas for verified doctors (qualifications, specialty, chamber address, visiting hours, fee, coordinates) and hospitals. |

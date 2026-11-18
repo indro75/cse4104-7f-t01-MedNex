@@ -16,6 +16,7 @@ describe('MedNex Backend Day 1 – Foundation & Health Checks', () => {
 
     assert.strictEqual(res.body.platform, 'MedNex API');
     assert.strictEqual(res.body.status, 'online');
+    assert.strictEqual(res.body.version, '1.0.0-day02');
     assert.strictEqual(res.body.team, 'CSE4104-7F-T01');
     assert.strictEqual(res.body.backendLead, 'Indrojit Sana (11230321391)');
   });

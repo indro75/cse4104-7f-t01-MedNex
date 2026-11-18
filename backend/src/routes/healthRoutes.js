@@ -1,5 +1,6 @@
 const express = require('express');
 const config = require('../config/env');
+const { checkDbConnection } = require('../config/db');
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
     course: 'CSE 4104 – Software Development III',
     team: 'CSE4104-7F-T01',
     backendLead: 'Indrojit Sana (11230321391)',
-    version: '1.0.0-day01',
+    version: '1.0.0-day02',
     status: 'online',
     deploymentHub: config.deploymentHub,
     emergencyHotline: config.emergencyHotline,
@@ -24,9 +25,11 @@ router.get('/', (req, res) => {
 
 /**
  * @route   GET /api/health
- * @desc    System health & diagnostics endpoint
+ * @desc    System health & diagnostics endpoint (including live DB check)
  */
-router.get('/api/health', (req, res) => {
+router.get('/api/health', async (req, res) => {
+  const dbHealth = await checkDbConnection();
+
   res.json({
     status: 'healthy',
     timestamp: new Date().toISOString(),
@@ -35,10 +38,28 @@ router.get('/api/health', (req, res) => {
     nodeVersion: process.version,
     services: {
       apiGateway: 'operational',
-      database: 'scaffolded',
+      database: dbHealth.connected ? 'connected' : dbHealth.status,
       geminiAi: config.geminiApiKey ? 'configured' : 'pending_api_key',
       emergencyDialer: 'active (999)'
     },
+    databaseDetails: {
+      connected: dbHealth.connected,
+      engine: dbHealth.engine || 'PostgreSQL / Supabase',
+      ...(dbHealth.connected ? { latencyMs: dbHealth.latencyMs } : { note: dbHealth.message })
+    },
+    disclaimer: config.medicalDisclaimer
+  });
+});
+
+/**
+ * @route   GET /api/health/db
+ * @desc    Dedicated database connection status and diagnostics
+ */
+router.get('/api/health/db', async (req, res) => {
+  const dbHealth = await checkDbConnection();
+  res.status(dbHealth.connected ? 200 : 503).json({
+    success: dbHealth.connected,
+    health: dbHealth,
     disclaimer: config.medicalDisclaimer
   });
 });
