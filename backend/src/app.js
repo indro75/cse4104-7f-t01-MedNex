@@ -7,6 +7,7 @@ const config = require('./config/env');
 const safetyHeaders = require('./middlewares/safetyHeaders');
 const { notFoundHandler, globalErrorHandler } = require('./middlewares/errorHandler');
 const healthRoutes = require('./routes/healthRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use(safetyHeaders);
 
 // 6. Mount Core Routes
 app.use(healthRoutes);
+app.use('/api/auth', authRoutes);
 
 // 7. Error Handling Middleware
 app.use(notFoundHandler);

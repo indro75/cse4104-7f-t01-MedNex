@@ -15,7 +15,7 @@ router.get('/', (req, res) => {
     course: 'CSE 4104 – Software Development III',
     team: 'CSE4104-7F-T01',
     backendLead: 'Indrojit Sana (11230321391)',
-    version: '1.0.0-day02',
+    version: '1.0.0-day04',
     status: 'online',
     deploymentHub: config.deploymentHub,
     emergencyHotline: config.emergencyHotline,
