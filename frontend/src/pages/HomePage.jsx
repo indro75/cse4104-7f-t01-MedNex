@@ -221,17 +221,26 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Day 1 Roadmap Indicator */}
-                <div className="p-3 rounded-xl bg-sky-950/60 border border-sky-800/60 text-[11px] text-sky-200">
-                  <div className="font-bold text-white flex items-center justify-between mb-1">
-                    <span>Frontend Task 01 of 20</span>
-                    <span className="bg-sky-500/30 text-sky-300 px-2 py-0.5 rounded-full text-[10px]">
-                      Day 01 Complete
+                {/* Day 2 Roadmap Indicator */}
+                <div className="p-3 rounded-xl bg-sky-950/60 border border-sky-800/60 text-[11px] text-sky-200 space-y-1.5">
+                  <div className="font-bold text-white flex items-center justify-between">
+                    <span>Frontend Task 02 of 20</span>
+                    <span className="bg-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">
+                      Day 02 Ready
                     </span>
                   </div>
                   <p className="text-sky-300/80 leading-normal">
-                    Foundation UI shell, responsive header/drawer/bottom-nav, persistent medical disclaimers, and 999 hotline established.
+                    Medical Design System: Badges, WCAG AA buttons, alerts, pain range slider (FR-09), modal dialogs & skeletons.
                   </p>
+                  <div className="pt-1">
+                    <Link
+                      to="/design-system"
+                      className="inline-flex items-center gap-1 text-[11px] font-bold text-teal-300 hover:text-white underline"
+                    >
+                      <span>Explore Component Showcase</span>
+                      <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -437,13 +446,22 @@ export default function HomePage() {
                 Vite + React, Tailwind CSS, 999 hotline, mobile drawer & safety notices.
               </p>
             </div>
+            <div className="p-3 rounded-xl bg-slate-800/80 border border-emerald-500/50">
+              <span className="text-[10px] font-bold text-emerald-400 uppercase">
+                Day 02 (Completed)
+              </span>
+              <h4 className="font-bold text-slate-100 mt-1">Design System & UI Library</h4>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Standardized badges, WCAG AA buttons, alerts, pain slider, modal dialogs & skeletons.
+              </p>
+            </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
               <span className="text-[10px] font-bold text-slate-400 uppercase">
-                Days 02 – 04
+                Days 03 – 04
               </span>
-              <h4 className="font-bold text-slate-200 mt-1">Design System & Auth UI</h4>
+              <h4 className="font-bold text-slate-200 mt-1">Global State & Auth UI</h4>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                Component library, AuthContext, user login, registration & profile.
+                AuthContext, user login, registration with disclaimer & profile.
               </p>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">

@@ -13,6 +13,7 @@ import {
   ShieldCheck,
   Building2,
   ChevronRight,
+  Sparkles,
 } from 'lucide-react';
 import { BANGLADESH_HOTLINES, MEDICAL_SAFETY_DISCLAIMER } from '../../constants/medical';
 
@@ -90,6 +91,18 @@ export default function MobileDrawer({ isOpen, onClose }) {
           desc: 'WHO weight classification & trends',
           icon: Scale,
           badge: 'WHO Vitals',
+        },
+      ],
+    },
+    {
+      title: 'Design System & Architecture',
+      items: [
+        {
+          label: 'UI Library & Primitives',
+          path: '/design-system',
+          desc: 'Standardized badges, modals, alerts & pain slider',
+          icon: Sparkles,
+          badge: 'Day 02',
         },
       ],
     },

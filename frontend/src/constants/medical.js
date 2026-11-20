@@ -136,3 +136,20 @@ export const CORE_PLATFORM_FEATURES = [
     status: "Upcoming (Day 20)",
   },
 ];
+
+export const PAIN_SEVERITY_BANDS = [
+  { min: 1, max: 3, label: 'Mild Pain', color: 'bg-emerald-500 text-emerald-800 bg-emerald-100 border-emerald-300' },
+  { min: 4, max: 6, label: 'Moderate Pain', color: 'bg-amber-500 text-amber-900 bg-amber-100 border-amber-300' },
+  { min: 7, max: 8, label: 'Severe Pain', color: 'bg-orange-500 text-orange-900 bg-orange-100 border-orange-300' },
+  { min: 9, max: 10, label: 'Critical / Excruciating', color: 'bg-red-600 text-red-900 bg-red-100 border-red-300' },
+];
+
+export function getPainSeverityInfo(score) {
+  const num = Number(score);
+  return (
+    PAIN_SEVERITY_BANDS.find((b) => num >= b.min && num <= b.max) || {
+      label: 'Unspecified',
+      color: 'bg-slate-500 text-slate-800 bg-slate-100 border-slate-300',
+    }
+  );
+}

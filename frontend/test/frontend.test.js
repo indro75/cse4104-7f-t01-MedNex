@@ -9,6 +9,7 @@ import {
   BANGLADESH_HOTLINES,
   KHULNA_PRIMARY_HOSPITALS,
   CORE_PLATFORM_FEATURES,
+  getPainSeverityInfo,
 } from '../src/constants/medical.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -73,5 +74,50 @@ describe('MedNex Frontend Day 1 Unit & Verification Suite', () => {
     const htmlContent = fs.readFileSync(distIndex, 'utf-8');
     assert.match(htmlContent, /<meta name="viewport"/i, 'Must contain responsive viewport meta');
     assert.match(htmlContent, /MedNex/i, 'Must contain MedNex title/branding');
+  });
+});
+
+describe('MedNex Frontend Day 2 Design System & Component Library Suite', () => {
+  test('FR-09: getPainSeverityInfo accurately classifies subjective pain levels', () => {
+    const mild = getPainSeverityInfo(2);
+    assert.equal(mild.label, 'Mild Pain');
+
+    const moderate = getPainSeverityInfo(5);
+    assert.equal(moderate.label, 'Moderate Pain');
+
+    const severe = getPainSeverityInfo(8);
+    assert.equal(severe.label, 'Severe Pain');
+
+    const critical = getPainSeverityInfo(10);
+    assert.equal(critical.label, 'Critical / Excruciating');
+  });
+
+  test('Common UI components exist in src/components/common', () => {
+    const commonDir = path.join(frontendRoot, 'src', 'components', 'common');
+    const expectedComponents = [
+      'Badge.jsx',
+      'Button.jsx',
+      'Alert.jsx',
+      'Modal.jsx',
+      'Card.jsx',
+      'Input.jsx',
+      'Select.jsx',
+      'Textarea.jsx',
+      'RangeSlider.jsx',
+      'Skeleton.jsx',
+      'index.js',
+    ];
+
+    for (const file of expectedComponents) {
+      assert.ok(
+        fs.existsSync(path.join(commonDir, file)),
+        `Component file ${file} must exist in common directory`
+      );
+    }
+  });
+
+  test('Design system page exists and is routed', () => {
+    const pageFile = path.join(frontendRoot, 'src', 'pages', 'DesignSystemPage.jsx');
+    assert.ok(fs.existsSync(pageFile), 'DesignSystemPage.jsx must exist');
   });
 });

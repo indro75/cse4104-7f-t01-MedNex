@@ -50,6 +50,7 @@ export default function Header({ onOpenMobileMenu }) {
     { label: 'Lab Reports', path: '/report-analyzer' },
     { label: 'Medicines', path: '/medicines' },
     { label: 'BMI & Vitals', path: '/fitness' },
+    { label: 'UI Library', path: '/design-system' },
   ];
 
   return (

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/layout/Layout';
 import HomePage from './pages/HomePage';
+import DesignSystemPage from './pages/DesignSystemPage';
 import PlaceholderPage from './pages/PlaceholderPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -12,6 +13,9 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           
+          {/* Day 02: Design System & UI Library Showcase */}
+          <Route path="design-system" element={<DesignSystemPage />} />
+
           <Route
             path="symptom-checker"
             element={
