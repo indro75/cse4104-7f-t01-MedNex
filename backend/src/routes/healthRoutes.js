@@ -1,6 +1,8 @@
 const express = require('express');
 const config = require('../config/env');
 const { checkDbConnection } = require('../config/db');
+const DoctorModel = require('../models/doctorModel');
+const HospitalModel = require('../models/hospitalModel');
 
 const router = express.Router();
 
@@ -15,7 +17,7 @@ router.get('/', (req, res) => {
     course: 'CSE 4104 – Software Development III',
     team: 'CSE4104-7F-T01',
     backendLead: 'Indrojit Sana (11230321391)',
-    version: '1.0.0-day04',
+    version: '1.0.0-day06',
     status: 'online',
     deploymentHub: config.deploymentHub,
     emergencyHotline: config.emergencyHotline,
@@ -60,6 +62,30 @@ router.get('/api/health/db', async (req, res) => {
   res.status(dbHealth.connected ? 200 : 503).json({
     success: dbHealth.connected,
     health: dbHealth,
+    disclaimer: config.medicalDisclaimer
+  });
+});
+
+/**
+ * @route   GET /api/health/seed-status
+ * @desc    Inspect Khulna verified registry coverage
+ */
+router.get('/api/health/seed-status', async (req, res) => {
+  const totalDoctors = await DoctorModel.countDoctors();
+  const totalHospitals = await HospitalModel.countHospitals();
+  const specialties = await DoctorModel.getAllSpecialties();
+  const areas = await DoctorModel.getAllAreas();
+
+  res.json({
+    success: true,
+    registry: {
+      deploymentHub: config.deploymentHub,
+      totalHospitals,
+      totalDoctors,
+      specialtiesCount: specialties.length,
+      specialties,
+      areasCovered: areas
+    },
     disclaimer: config.medicalDisclaimer
   });
 });
