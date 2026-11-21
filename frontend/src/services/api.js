@@ -1,21 +1,36 @@
 /**
- * MedNex API Client Service
- * Encapsulates backend REST API interactions with graceful offline degradation (NFR-16).
+ * MedNex Centralized API Client Service
+ * Automatically attaches JWT authentication headers and provides offline degradation (NFR-16).
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api';
+import { storage, STORAGE_KEYS } from './storage.js';
+
+const API_BASE_URL =
+  (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_BASE_URL) || '/api';
 
 /**
- * Generic request helper with timeout and standardized error handling
+ * Generic request helper with automatic JWT injection, timeout, and standardized error handling
  */
 export async function apiRequest(endpoint, options = {}) {
-  const url = endpoint.startsWith('http')
-    ? endpoint
-    : `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+  // Normalize URL
+  let url = endpoint;
+  if (!endpoint.startsWith('http')) {
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
+    // If endpoint already starts with /api and base URL ends with /api, avoid duplication
+    if (API_BASE_URL.endsWith('/api') && cleanEndpoint.startsWith('/api')) {
+      url = cleanEndpoint;
+    } else {
+      url = `${API_BASE_URL}${cleanEndpoint}`;
+    }
+  }
+
+  // Retrieve JWT auth token if available
+  const token = storage.getItem(STORAGE_KEYS.AUTH_TOKEN);
 
   const defaultHeaders = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
   };
 
   const config = {
@@ -39,7 +54,10 @@ export async function apiRequest(endpoint, options = {}) {
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
-      const errorMsg = data?.message || data?.error || `HTTP Error ${response.status}`;
+      const errorMsg =
+        data?.message ||
+        data?.error ||
+        (Array.isArray(data?.errors) ? data.errors.join(', ') : `HTTP Error ${response.status}`);
       return {
         success: false,
         status: response.status,
@@ -65,6 +83,18 @@ export async function apiRequest(endpoint, options = {}) {
 }
 
 /**
+ * Convenience HTTP method wrappers
+ */
+export const http = {
+  get: (endpoint, options) => apiRequest(endpoint, { method: 'GET', ...options }),
+  post: (endpoint, body, options) =>
+    apiRequest(endpoint, { method: 'POST', body: JSON.stringify(body), ...options }),
+  put: (endpoint, body, options) =>
+    apiRequest(endpoint, { method: 'PUT', body: JSON.stringify(body), ...options }),
+  delete: (endpoint, options) => apiRequest(endpoint, { method: 'DELETE', ...options }),
+};
+
+/**
  * Checks backend health diagnostics (/api/health)
  * Supports graceful fallback if the backend service is not running.
  */
@@ -73,32 +103,18 @@ export async function checkBackendHealth() {
   if (result.success && result.data) {
     return {
       healthy: true,
-      status: result.data.status || 'OK',
+      status: result.data.status || 'healthy',
       timestamp: result.data.timestamp || new Date().toISOString(),
-      service: result.data.service || 'MedNex Backend',
+      service: result.data.platform || 'MedNex Backend',
+      services: result.data.services || {},
+      databaseDetails: result.data.databaseDetails || {},
       disclaimer: result.data.disclaimer,
-      uptime: result.data.uptime,
+      uptimeSeconds: result.data.uptimeSeconds,
     };
   }
   return {
     healthy: false,
-    status: 'Standby / Offline',
-    error: result.error || 'Backend unreachable',
+    status: 'Standby / Offline Mode',
+    error: result.error || 'Backend unreachable on port 5000',
   };
-}
-
-/**
- * Fetches the root API manifest info
- */
-export async function getRootApiInfo() {
-  // Direct call to root / or /api
-  try {
-    const res = await fetch('/');
-    if (res.ok) {
-      return await res.json();
-    }
-  } catch (e) {
-    // Graceful fallback
-  }
-  return null;
 }
