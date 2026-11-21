@@ -221,24 +221,30 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                {/* Day 2 Roadmap Indicator */}
+                {/* Day 3 Roadmap Indicator */}
                 <div className="p-3 rounded-xl bg-sky-950/60 border border-sky-800/60 text-[11px] text-sky-200 space-y-1.5">
                   <div className="font-bold text-white flex items-center justify-between">
-                    <span>Frontend Task 02 of 20</span>
+                    <span>Frontend Task 03 of 20</span>
                     <span className="bg-emerald-500/30 text-emerald-300 px-2 py-0.5 rounded-full text-[10px]">
-                      Day 02 Ready
+                      Day 03 Ready
                     </span>
                   </div>
                   <p className="text-sky-300/80 leading-normal">
-                    Medical Design System: Badges, WCAG AA buttons, alerts, pain range slider (FR-09), modal dialogs & skeletons.
+                    Global State Architecture: AuthContext (JWT & profile), HealthContext (system diagnostics & longitudinal timeline), and safe storage.
                   </p>
-                  <div className="pt-1">
+                  <div className="pt-1 flex items-center gap-3">
                     <Link
-                      to="/design-system"
+                      to="/state-architecture"
                       className="inline-flex items-center gap-1 text-[11px] font-bold text-teal-300 hover:text-white underline"
                     >
-                      <span>Explore Component Showcase</span>
+                      <span>Inspect State Architecture</span>
                       <ArrowRight className="w-3 h-3" />
+                    </Link>
+                    <Link
+                      to="/design-system"
+                      className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-300 hover:text-white"
+                    >
+                      <span>UI Library</span>
                     </Link>
                   </div>
                 </div>
@@ -455,13 +461,22 @@ export default function HomePage() {
                 Standardized badges, WCAG AA buttons, alerts, pain slider, modal dialogs & skeletons.
               </p>
             </div>
+            <div className="p-3 rounded-xl bg-slate-800/80 border border-emerald-500/50">
+              <span className="text-[10px] font-bold text-emerald-400 uppercase">
+                Day 03 (Completed)
+              </span>
+              <h4 className="font-bold text-slate-100 mt-1">Global State & API Services</h4>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                AuthContext (JWT & profile), HealthContext (diagnostics & timeline), and SafeStorage.
+              </p>
+            </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
               <span className="text-[10px] font-bold text-slate-400 uppercase">
-                Days 03 – 04
+                Day 04 (Next)
               </span>
-              <h4 className="font-bold text-slate-200 mt-1">Global State & Auth UI</h4>
+              <h4 className="font-bold text-slate-200 mt-1">Authentication & Profile UI</h4>
               <p className="text-[11px] text-slate-400 mt-0.5">
-                AuthContext, user login, registration with disclaimer & profile.
+                Registration with disclaimer consent, login screen & clinical profile editor.
               </p>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">

@@ -11,6 +11,9 @@ import {
   CORE_PLATFORM_FEATURES,
   getPainSeverityInfo,
 } from '../src/constants/medical.js';
+import { storage, STORAGE_KEYS } from '../src/services/storage.js';
+import { authService } from '../src/services/authService.js';
+import { healthService } from '../src/services/healthService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -119,5 +122,45 @@ describe('MedNex Frontend Day 2 Design System & Component Library Suite', () => 
   test('Design system page exists and is routed', () => {
     const pageFile = path.join(frontendRoot, 'src', 'pages', 'DesignSystemPage.jsx');
     assert.ok(fs.existsSync(pageFile), 'DesignSystemPage.jsx must exist');
+  });
+});
+
+describe('MedNex Frontend Day 3 Global State & API Service Architecture Suite', () => {
+  test('NFR-16: SafeStorage provides memory fallback and standardized STORAGE_KEYS', () => {
+    assert.ok(STORAGE_KEYS.AUTH_TOKEN, 'AUTH_TOKEN key defined');
+    assert.ok(STORAGE_KEYS.AUTH_USER, 'AUTH_USER key defined');
+    assert.ok(STORAGE_KEYS.HEALTH_TIMELINE, 'HEALTH_TIMELINE key defined');
+
+    const testKey = 'test_token_key';
+    const testVal = 'jwt.test.token';
+    storage.setItem(testKey, testVal);
+    assert.equal(storage.getItem(testKey), testVal);
+    storage.removeItem(testKey);
+    assert.equal(storage.getItem(testKey), null);
+  });
+
+  test('authService exports all required authentication methods (FR-01, FR-03, FR-04, FR-06)', () => {
+    assert.equal(typeof authService.register, 'function');
+    assert.equal(typeof authService.login, 'function');
+    assert.equal(typeof authService.demoLogin, 'function');
+    assert.equal(typeof authService.getProfile, 'function');
+    assert.equal(typeof authService.updateProfile, 'function');
+    assert.equal(typeof authService.logout, 'function');
+  });
+
+  test('healthService exports all diagnostics endpoints', () => {
+    assert.equal(typeof healthService.getSystemHealth, 'function');
+    assert.equal(typeof healthService.getDbHealth, 'function');
+    assert.equal(typeof healthService.getRootInfo, 'function');
+  });
+
+  test('React Context providers and State Architecture page exist', () => {
+    const contextDir = path.join(frontendRoot, 'src', 'context');
+    assert.ok(fs.existsSync(path.join(contextDir, 'AuthContext.jsx')), 'AuthContext.jsx must exist');
+    assert.ok(fs.existsSync(path.join(contextDir, 'HealthContext.jsx')), 'HealthContext.jsx must exist');
+    assert.ok(fs.existsSync(path.join(contextDir, 'index.js')), 'context/index.js must exist');
+
+    const statePage = path.join(frontendRoot, 'src', 'pages', 'StateArchitecturePage.jsx');
+    assert.ok(fs.existsSync(statePage), 'StateArchitecturePage.jsx must exist');
   });
 });

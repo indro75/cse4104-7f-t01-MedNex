@@ -34,7 +34,7 @@
 | :---: | :--- | :--- | :---: |
 | **Day 01** *(Completed)* | **Vite + React Foundation & UI Shell** | Vite SPA foundation, Tailwind CSS setup, responsive header with MedNex branding, sticky mobile bottom navigation, slide-over drawer, persistent medical disclaimer banner, 999 hotline dialer anchor, REST API diagnostics monitor, and home landing view. | NFR-05, NFR-06, NFR-07, NFR-08, NFR-15, FR-02, FR-24 |
 | **Day 02** *(Completed)* | **Design System & Component Library** | Standardized medical UI primitives: Status Badges (Emergency, Critical, Warning, Success), Modal dialogs, loading skeletons, clinical input fields (Input, Select, Textarea, RangeSlider for pain severity scale 1-10), WCAG AA contrast buttons, and interactive Design System Showcase page (`/design-system`). | NFR-07, NFR-08, FR-09 |
-| **Day 03** | **Global State & API Service Architecture** | `AuthContext` and `HealthContext` providers, centralized fetch/Axios service with JWT bearer interceptors, base API configuration, and offline fallback handlers. | NFR-16, NFR-19 |
+| **Day 03** *(Completed)* | **Global State & API Service Architecture** | `AuthContext` (JWT session management, 1-click Demo Patient login, clinical profile metadata), `HealthContext` (longitudinal patient health activity timeline, JSON export per FR-41, live system diagnostics monitor), centralized API client with JWT bearer interceptors, `SafeStorage` with memory fallback (NFR-16), and interactive state architecture monitor (`/state-architecture`). | NFR-16, NFR-19, FR-01, FR-03, FR-06, FR-41 |
 | **Day 04** | **User Authentication & Profile UI** | Registration form (`/signup`) with mandatory Medical Safety Disclaimer agreement checkbox, login screen (`/login`), user clinical profile management (`/profile`), and protected route guards. | FR-01, FR-02, FR-03, FR-04, FR-06 |
 | **Day 05** | **Emergency & 24/7 Ambulance Hub** | Dedicated emergency page (`/emergency`), prominent 999 one-tap dialer, verified 24/7 ambulance cards categorized by type (ICU, Standard BLS, NICU), equipment badges (oxygen, ventilator), and direct driver calling. | FR-24, FR-25, FR-26, FR-27 |
 | **Day 06** | **Khulna Hospital & ER Directory** | Regional hospital directory (`/hospitals`) featuring KMCH, Gazi Medical, Sheikh Abu Naser, and City Medical with 24/7 ICU status, emergency ward capabilities, and direct call actions. | FR-28, NFR-14 |
@@ -90,7 +90,7 @@ npm test
 
 ---
 
-## 🏗️ Folder Structure (Day 02)
+## 🏗️ Folder Structure (Day 03)
 
 ```
 frontend/
@@ -114,26 +114,34 @@ frontend/
 │   │   │   └── index.js           # Common component barrel export
 │   │   └── layout/                # Shell layout components
 │   │       ├── Footer.jsx         # Regional hub & team attribution footer
-│   │       ├── Header.jsx         # Top navigation bar with MedNex branding
+│   │       ├── Header.jsx         # Top navigation bar with MedNex branding & session pill
 │   │       ├── Layout.jsx         # Primary layout container with Outlet
 │   │       ├── MobileBottomNav.jsx # Sticky mobile bottom navigation (NFR-06)
-│   │       ├── MobileDrawer.jsx   # Slide-over service drawer (NFR-06)
+│   │       ├── MobileDrawer.jsx   # Slide-over service drawer with user profile card
 │   │       └── SafetyDisclaimerBanner.jsx # Persistent medical disclaimer (NFR-15)
 │   ├── constants/
 │   │   └── medical.js             # Disclaimers, hotlines, Khulna hospitals, pain scale bands
+│   ├── context/
+│   │   ├── AuthContext.jsx        # JWT session, 1-click Demo Patient, clinical metadata
+│   │   ├── HealthContext.jsx      # System diagnostics, activity timeline & JSON export (FR-41)
+│   │   └── index.js               # Context barrel export (useAuth, useHealth)
 │   ├── pages/
 │   │   ├── DesignSystemPage.jsx   # Day 02 interactive component showcase (/design-system)
 │   │   ├── HomePage.jsx           # Landing page with 7-feature showcase & API monitor
 │   │   ├── NotFoundPage.jsx       # 404 error page
-│   │   └── PlaceholderPage.jsx    # Roadmap navigation placeholders with SRS references
+│   │   ├── PlaceholderPage.jsx    # Roadmap navigation placeholders with SRS references
+│   │   └── StateArchitecturePage.jsx # Day 03 live state & activity timeline monitor
 │   ├── services/
-│   │   └── api.js                 # API client with health diagnostics check
+│   │   ├── api.js                 # Centralized API client with automatic JWT injection
+│   │   ├── authService.js         # Authentication REST API endpoints & profile management
+│   │   ├── healthService.js       # System health & database diagnostics service
+│   │   └── storage.js             # SafeStorage with localStorage & in-memory fallback (NFR-16)
 │   ├── styles/
 │   │   └── index.css              # Tailwind CSS directives and custom animations
-│   ├── App.jsx                    # React Router DOM configuration
+│   ├── App.jsx                    # React Router DOM with AuthProvider & HealthProvider
 │   └── main.jsx                   # React entry point
 ├── test/
-│   └── frontend.test.js           # Day 1 & Day 2 unit & verification test suite
+│   └── frontend.test.js           # Day 1, Day 2 & Day 3 unit & verification test suite
 ├── .env.example                   # Environment variable template
 ├── index.html                     # HTML5 entry point with Inter & Plus Jakarta fonts
 ├── package.json                   # Dependencies, scripts & author metadata
