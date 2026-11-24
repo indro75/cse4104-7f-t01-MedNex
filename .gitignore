@@ -41,3 +41,8 @@ Thumbs.db
 # Uploads directory
 uploads/
 backend/uploads/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
